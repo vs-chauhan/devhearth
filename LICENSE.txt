@@ -1,0 +1,65 @@
+DevHearth - End User License Agreement (Freeware)
+
+Copyright (c) 2026 Vivek Chauhan. All rights reserved.
+
+By installing or using DevHearth ("the Software") you agree to this license.
+If you do not agree, do not install or use the Software.
+
+1. LICENSE GRANT
+   You may install and use the Software free of charge, on any number of
+   computers you own or control, for personal, educational and commercial
+   purposes (including client work).
+
+2. RESTRICTIONS
+   You may not:
+   a) sell, rent, lease or sublicense the Software;
+   b) redistribute the Software or its installer, or bundle it with other
+      products, without written permission from the author (linking to the
+      official download page is always allowed);
+   c) modify, decompile, disassemble or reverse engineer the Software, except
+      to the extent that applicable law expressly permits it;
+   d) remove or change any copyright notice or branding in the Software.
+
+3. THIRD-PARTY COMPONENTS
+   The Software downloads Apache HTTP Server, Nginx, PHP, MySQL, Composer,
+   phpMyAdmin, Go, the Microsoft Visual C++ runtime and the curl CA bundle
+   from their official websites at your request. These components are NOT
+   part of the Software and are governed by their own licenses. See
+   THIRD-PARTY-NOTICES.md for details.
+
+4. CHANGES TO YOUR SYSTEM
+   To provide local HTTPS domains, the Software, with your approval:
+   a) creates a local certificate authority on your computer and adds it to
+      your user account's trusted root certificates;
+   b) adds entries for your local *.test domains to the Windows hosts file.
+   The private key of the local certificate authority never leaves your
+   computer. You can undo both changes at any time (see the README).
+
+5. PRIVACY
+   The Software does not collect personal data and contains no telemetry or
+   advertising. It connects to the internet only to download or update the
+   components listed in section 3, and to check for their latest versions.
+
+6. UPDATES AND FUTURE EDITIONS
+   The author may release updates, and may in future offer additional paid
+   features or editions. This license covers the version you received; a
+   future version may come with a different license.
+
+7. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. The Software is a
+   development tool and is not intended to serve production websites.
+
+8. LIMITATION OF LIABILITY
+   TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL THE AUTHOR BE
+   LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING LOSS OF DATA
+   OR PROFITS, ARISING FROM OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+   Keep backups of your projects and databases.
+
+9. TERMINATION
+   This license ends automatically if you break its terms. You must then
+   uninstall the Software and delete all copies.
+
+Questions or redistribution requests: open an issue at
+https://github.com/vs-chauhan/devhearth/issues
