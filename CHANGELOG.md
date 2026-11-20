@@ -2,6 +2,14 @@
 
 All notable changes to DevHearth are listed here. Versions follow [Semantic Versioning](https://semver.org).
 
+## [1.1.1]
+
+- New flame app icon and in-app logo
+- Warm orange colour theme to match the new brand
+- Buttons now show their intended text colours (e.g. red Stop buttons)
+- Fixed port numbers being cut off in Settings
+- Tray icon renders correctly at small sizes
+
 ## [1.1.0] - first public release
 
 - Apache **or** Nginx + PHP + MySQL 8.4 LTS, started and stopped with one click
