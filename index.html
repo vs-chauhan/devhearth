@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevHearth – local PHP dev stack for Windows</title>
+<meta name="description" content="DevHearth is a small, fast local development stack for Windows: Apache or Nginx, PHP and MySQL, with every project served at https://name.test using a trusted certificate. Free.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#14110f">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="icon" type="image/png" href="assets/logo-256.png">
+<meta property="og:title" content="DevHearth – your local dev home">
+<meta property="og:description" content="Apache or Nginx, PHP and MySQL on Windows. Every folder becomes https://name.test with a trusted certificate. Small, fast and free.">
+<meta property="og:image" content="https://vs-chauhan.github.io/devhearth/assets/screenshot-dashboard.png">
+<meta property="og:url" content="https://vs-chauhan.github.io/devhearth/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --bg: #14110f;
+    --bg-2: #1b1714;
+    --card: #211c18;
+    --line: #342c26;
+    --text: #f4eee8;
+    --muted: #b0a59b;
+    --faint: #7d7269;
+    --fire-1: #ffc24a;
+    --fire-2: #ff8a1f;
+    --fire-3: #ff4b2b;
+    --good: #3ad07f;
+    --radius: 16px;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* nav */
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(20,17,15,.82); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.05); }
+  nav .wrap { display: flex; align-items: center; gap: 28px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 18px; text-decoration: none; }
+  .brand img { width: 32px; height: 32px; }
+  .links { display: flex; gap: 22px; margin-left: auto; font-size: 15px; }
+  .links a { color: var(--muted); text-decoration: none; }
+  .links a:hover { color: var(--text); }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 12px; font-weight: 600; font-size: 16px; text-decoration: none; border: 1px solid transparent; transition: transform .15s, box-shadow .15s, background .15s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-fire { background: linear-gradient(135deg, var(--fire-2), var(--fire-3)); color: #1a0d05; box-shadow: 0 8px 30px -8px rgba(255,110,40,.6); }
+  .btn-fire:hover { box-shadow: 0 12px 36px -8px rgba(255,110,40,.75); }
+  .btn-ghost { border-color: var(--line); color: var(--text); background: rgba(255,255,255,.03); }
+  .btn-ghost:hover { background: rgba(255,255,255,.07); }
+  .btn-sm { padding: 8px 14px; font-size: 14px; border-radius: 10px; }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+
+  /* hero */
+  .hero { position: relative; padding: 88px 0 40px; text-align: center; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: -200px 0 auto; height: 700px; background: radial-gradient(closest-side at 50% 55%, rgba(255,120,30,.22), transparent); pointer-events: none; }
+  .hero > * { position: relative; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px; background: rgba(255,255,255,.03); }
+  .pill b { color: var(--fire-1); font-weight: 600; }
+  h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; letter-spacing: -.03em; margin: 22px 0 18px; font-weight: 750; }
+  h1 .glow { background: linear-gradient(180deg, var(--fire-1), var(--fire-2) 55%, var(--fire-3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { max-width: 680px; margin: 0 auto; color: var(--muted); font-size: clamp(17px, 2.2vw, 20px); }
+  .lead code { font-family: var(--mono); color: var(--text); font-size: .92em; background: rgba(255,255,255,.06); padding: 2px 7px; border-radius: 6px; }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 34px 0 14px; }
+  .meta { color: var(--faint); font-size: 14px; }
+
+  .shot { margin: 56px auto 0; width: 100%; max-width: 1040px; height: auto; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 40px 120px -30px rgba(255,100,30,.35), 0 20px 60px rgba(0,0,0,.5); }
+
+  /* sections */
+  section { padding: 88px 0; }
+  .eyebrow { color: var(--fire-2); font-weight: 600; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+  h2 { font-size: clamp(30px, 4.4vw, 44px); line-height: 1.12; letter-spacing: -.02em; margin: 10px 0 14px; }
+  .sub { color: var(--muted); max-width: 640px; margin: 0 0 44px; font-size: 18px; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .card h3 { margin: 14px 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
+  .ico { width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; background: rgba(255,138,31,.12); color: var(--fire-2); }
+  .ico svg { width: 22px; height: 22px; }
+
+  /* how it works */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: step; }
+  .step { position: relative; padding: 26px 24px 24px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); }
+  .step::before { counter-increment: step; content: counter(step); display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--fire-2), var(--fire-3)); color: #1a0d05; font-weight: 750; margin-bottom: 14px; }
+  .step h3 { margin: 0 0 6px; font-size: 18px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+  .terminal { margin-top: 28px; background: #0f0d0c; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; font-family: var(--mono); font-size: 14.5px; line-height: 1.9; overflow-x: auto; }
+  .terminal-grid { display: grid; grid-template-columns: repeat(4, max-content); column-gap: 16px; white-space: nowrap; }
+  .terminal .path { color: var(--muted); }
+  .terminal .arrow { color: var(--faint); }
+  .terminal .url { color: var(--fire-1); }
+  .terminal .ok { color: var(--good); }
+
+  /* stacks */
+  .stacks { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); color: var(--text); font-size: 15px; }
+  .tag small { color: var(--faint); margin-left: 6px; font-size: 13px; }
+
+  /* faq */
+  .faq { max-width: 820px; }
+  details { border-bottom: 1px solid var(--line); padding: 4px 0; }
+  summary { cursor: pointer; list-style: none; padding: 18px 36px 18px 0; font-weight: 600; font-size: 17px; position: relative; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; position: absolute; right: 4px; top: 14px; font-size: 24px; color: var(--faint); font-weight: 400; transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 0 0 18px; color: var(--muted); }
+  details code { font-family: var(--mono); font-size: .9em; background: rgba(255,255,255,.06); padding: 1px 6px; border-radius: 5px; color: var(--text); }
+
+  /* final cta */
+  .final { text-align: center; padding: 72px 24px; border-radius: 24px; background: radial-gradient(closest-side at 50% 100%, rgba(255,110,30,.25), transparent), var(--bg-2); border: 1px solid var(--line); }
+  .final img { width: 72px; height: 72px; margin: 0 auto 18px; }
+  .final h2 { margin-top: 0; }
+
+  footer { padding: 40px 0 56px; color: var(--faint); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; }
+  footer nav { all: unset; display: flex; flex-wrap: wrap; gap: 8px 20px; margin-left: auto; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  @media (max-width: 860px) {
+    .grid, .steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .links { display: none; }
+    nav .btn-sm { margin-left: auto; }
+    .grid, .steps { grid-template-columns: 1fr; }
+    .hero { padding-top: 56px; }
+    section { padding: 64px 0; }
+    .shot { margin-top: 40px; border-radius: 10px; }
+    footer nav { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="assets/logo.svg" alt="">DevHearth</a>
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/vs-chauhan/devhearth">GitHub</a>
+    </div>
+    <a class="btn btn-fire btn-sm" href="https://github.com/vs-chauhan/devhearth/releases/latest">Download</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="pill"><b>New</b> Version 1.1.0 is out, free for everyone</span>
+    <h1>Your local dev <span class="glow">home.</span></h1>
+    <p class="lead">Apache or Nginx, PHP and MySQL on Windows in one small app. Drop a folder in <code>www</code> and it's live at <code>https://folder.test</code> with a trusted certificate.</p>
+    <div class="cta">
+      <a class="btn btn-fire" href="https://github.com/vs-chauhan/devhearth/releases/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+        Download for Windows
+      </a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+    <p class="meta">Windows 10 / 11 · 64-bit · 2 MB installer · no admin rights needed to install</p>
+
+    <img class="shot" src="assets/screenshot-dashboard.png" width="1720" height="830" alt="The DevHearth dashboard with Apache and MySQL running, showing versions, ports and memory use">
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <div class="eyebrow">Features</div>
+    <h2>Everything a PHP project needs.<br>Nothing it doesn't.</h2>
+    <p class="sub">DevHearth runs only the servers you start, keeps memory use low and stays out of your way in the tray.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>Trusted https://*.test</h3>
+        <p>Every project gets its own <code style="font-family:var(--mono)">.test</code> domain with a locally trusted SSL certificate. No browser warnings.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <h3>Apache or Nginx</h3>
+        <p>Pick your web server and switch with one click. The one that was running stops for you.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
+        <h3>PHP 8.2 to 8.5</h3>
+        <p>Switch PHP versions in Settings. Composer is included and PHP's SSL bundle is set up, so API calls just work.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h3>MySQL 8.4 + phpMyAdmin</h3>
+        <p>MySQL LTS tuned for a dev machine, and phpMyAdmin at <code style="font-family:var(--mono)">phpmyadmin.test</code> that logs you in automatically.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6m4 0h6M10 8l-4 4 4 4m4-8 4 4-4 4"/></svg></div>
+        <h3>Proxy to any dev server</h3>
+        <p>Point <code style="font-family:var(--mono)">myapp.test</code> at a Node, Remix or Shopify CLI port. Websockets and hot reload keep working.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
+        <h3>Light on memory</h3>
+        <p>A 2 MB installer and a tiny app. Apache, MySQL and the app together use under 300 MB.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background: var(--bg-2); border-block: 1px solid var(--line);">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>From download to https in minutes.</h2>
+    <p class="sub">No config files to edit and no services to install. Everything lives in one folder.</p>
+    <div class="steps">
+      <div class="step">
+        <h3>Install</h3>
+        <p>Run the installer, then click <b>Install components</b>. DevHearth downloads the official Apache, Nginx, PHP and MySQL builds once.</p>
+      </div>
+      <div class="step">
+        <h3>Approve two prompts</h3>
+        <p>Trust the local certificate so HTTPS works, and allow one hosts-file update so <code style="font-family:var(--mono)">.test</code> domains resolve.</p>
+      </div>
+      <div class="step">
+        <h3>Add a folder</h3>
+        <p>Create or clone a project in <code style="font-family:var(--mono)">C:\DevHearth\www</code>. It's served right away at its own https address.</p>
+      </div>
+    </div>
+    <div class="terminal" aria-label="Example folders and the addresses they are served at">
+      <div class="terminal-grid">
+        <span class="path">C:\DevHearth\www\my-shop</span><span class="arrow">→</span><span class="url">https://my-shop.test</span><span class="ok">✓ trusted</span>
+        <span class="path">C:\DevHearth\www\blog</span><span class="arrow">→</span><span class="url">https://blog.test</span><span class="ok">✓ Laravel public/ detected</span>
+        <span class="path">C:\DevHearth\www\api</span><span class="arrow">→</span><span class="url">https://api.test</span><span class="ok">✓ Go app on port 4100</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Made for</div>
+    <h2>Laravel, Shopify, WordPress, Go and more.</h2>
+    <p class="sub">Laravel's <code style="font-family:var(--mono)">public/</code> and Shopify PHP apps' <code style="font-family:var(--mono)">web/public/</code> folders are detected automatically. Folders with a <code style="font-family:var(--mono)">go.mod</code> get a Run button.</p>
+    <div class="stacks">
+      <span class="tag">Laravel</span>
+      <span class="tag">Shopify apps<small>PHP &amp; Remix</small></span>
+      <span class="tag">Shopify themes<small>via proxy</small></span>
+      <span class="tag">WordPress</span>
+      <span class="tag">Symfony</span>
+      <span class="tag">Plain PHP</span>
+      <span class="tag">Go</span>
+      <span class="tag">Node dev servers<small>via proxy</small></span>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top: 24px;">
+  <div class="wrap">
+    <div class="eyebrow">FAQ</div>
+    <h2>Questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Is DevHearth free?</summary>
+        <p>Yes. It's free for personal and commercial work. It isn't open source; see the <a href="https://github.com/vs-chauhan/devhearth/blob/main/LICENSE.txt">license</a>.</p>
+      </details>
+      <details>
+        <summary>Why does Windows say "Windows protected your PC"?</summary>
+        <p>DevHearth is new and its installer isn't code-signed yet, so Windows SmartScreen warns about it. Click <b>More info</b>, then <b>Run anyway</b>. The installer only writes to <code>C:\DevHearth</code> and doesn't need admin rights.</p>
+      </details>
+      <details>
+        <summary>What does it change on my computer?</summary>
+        <p>With your approval, it adds a local certificate authority to your user's trusted certificates (so <code>https://*.test</code> works) and adds your project domains to the Windows hosts file. Its private key never leaves your computer. There's no telemetry.</p>
+      </details>
+      <details>
+        <summary>Can I use it alongside XAMPP or Laragon?</summary>
+        <p>Yes, but not at the same time on the same ports. Stop the other stack first, or change DevHearth's ports in Settings.</p>
+      </details>
+      <details>
+        <summary>Does it work on macOS or Linux?</summary>
+        <p>Not yet. DevHearth is Windows-only today; macOS and Linux versions are planned.</p>
+      </details>
+      <details>
+        <summary>How do I uninstall it?</summary>
+        <p>Use Windows Settings ▸ Apps ▸ DevHearth. Servers, configs and logs are removed; your <code>www</code> projects and <code>data</code> databases are kept.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top: 24px;">
+  <div class="wrap">
+    <div class="final">
+      <img src="assets/logo.svg" alt="">
+      <h2>Light up your local stack.</h2>
+      <p class="sub" style="margin: 0 auto 30px;">Free for Windows 10 and 11.</p>
+      <a class="btn btn-fire" href="https://github.com/vs-chauhan/devhearth/releases/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16"/></svg>
+        Download DevHearth
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Vivek Chauhan</span>
+    <nav>
+      <a href="https://github.com/vs-chauhan/devhearth/blob/main/CHANGELOG.md">Changelog</a>
+      <a href="https://github.com/vs-chauhan/devhearth/blob/main/LICENSE.txt">License</a>
+      <a href="https://github.com/vs-chauhan/devhearth/blob/main/THIRD-PARTY-NOTICES.md">Third-party notices</a>
+      <a href="https://github.com/vs-chauhan/devhearth/issues">Report an issue</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

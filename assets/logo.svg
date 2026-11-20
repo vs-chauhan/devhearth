@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2A2420"/>
+      <stop offset="1" stop-color="#15120F"/>
+    </linearGradient>
+    <linearGradient id="outer" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FF4B2B"/>
+      <stop offset="0.55" stop-color="#FF8A1F"/>
+      <stop offset="1" stop-color="#FFC24A"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FFF6DC"/>
+      <stop offset="1" stop-color="#FFD66B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.82" r="0.55">
+      <stop offset="0" stop-color="#FF7A1F" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FF7A1F" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#bg)"/>
+  <rect x="8" y="8" width="240" height="240" rx="58" fill="url(#glow)"/>
+  <rect x="9.5" y="9.5" width="237" height="237" rx="56.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="3"/>
+  <!-- outer flame -->
+  <path fill="url(#outer)" d="M134 30
+    C 142 70, 196 96, 196 152
+    C 196 194, 166 222, 128 222
+    C 90 222, 60 194, 60 152
+    C 60 120, 78 100, 94 82
+    C 96 104, 106 118, 120 122
+    C 112 92, 118 58, 134 30 Z"/>
+  <!-- inner flame -->
+  <path fill="url(#inner)" d="M130 116
+    C 138 140, 162 154, 162 182
+    C 162 204, 148 216, 128 216
+    C 108 216, 94 204, 94 184
+    C 94 166, 104 156, 114 148
+    C 116 160, 122 166, 128 168
+    C 124 150, 124 132, 130 116 Z"/>
+</svg>

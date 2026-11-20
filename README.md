@@ -1,6 +1,10 @@
+<img src="assets/logo.svg" width="72" alt="DevHearth logo">
+
 # DevHearth
 
-**[⬇ Download DevHearth for Windows](https://github.com/vs-chauhan/devhearth/releases/latest)**
+**[⬇ Download DevHearth for Windows](https://github.com/vs-chauhan/devhearth/releases/latest)** · [Website](https://vs-chauhan.github.io/devhearth/)
+
+![DevHearth dashboard](assets/screenshot-dashboard.png)
 
 A small, fast local development stack for Windows: **Apache or Nginx + PHP + MySQL**, with automatic
 `https://<project>.test` domains. Inspired by Laragon/XAMPP, but kept minimal and light on memory.
